@@ -1,0 +1,25 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environments
+venv/
+yolov8-env/
+
+# VSCode settings
+.vscode/
+
+# macOS system files
+.DS_Store
+
+# Logs and outputs
+*.log
+*.mp4
+output_annotated.*
+
+# Jupyter checkpoints (if you use notebooks)
+.ipynb_checkpoints/
+
+# Environment & credentials
+.env
