@@ -11,7 +11,7 @@ video_path = 'exercise_video.mp4'  # replace with your actual file
 cap = cv2.VideoCapture(video_path)
 
 # Setup video writer to save output
-fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+fourcc = cv2.VideoWriter_fourcc(*'mp4v') # type: ignore
 out = cv2.VideoWriter('output_annotated.mp4', fourcc, 20.0,
                       (int(cap.get(3)), int(cap.get(4))))
 
