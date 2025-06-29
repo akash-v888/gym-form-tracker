@@ -1,26 +1,39 @@
-# Byte-compiled / cache files
-__pycache__/
-*.py[cod]
-*.so
-
-# Virtual environments
-venv/
-.venv/
-yolov8-env/
-
-# VSCode settings
-.vscode/
-
-# macOS system files
+# === General ===
 .DS_Store
-
-# Logs and outputs
 *.log
+
+# === Python ===
+.venv/
+__pycache__/
+*.pyc
+
+# === Virtualenvs ===
+yolov8-env/
+*.egg-info/
+
+# === Video/Media ===
 *.mp4
-output_annotated.*
+*.avi
+*.mov
 
-# Jupyter checkpoints (if you use notebooks)
-.ipynb_checkpoints/
+# === YOLO Models ===
+*.onnx
+*.pt
+*/models/yolov8n-pose.onnx
+*/yolov8n-pose.pt
 
-# Environment & credentials
-.env
+# === C++ Build Files ===
+/cpp-version/build/
+/cpp-version/CMakeFiles/
+/cpp-version/CMakeCache.txt
+/cpp-version/Makefile
+/cpp-version/*.out
+/cpp-version/*.o
+/cpp-version/*.obj
+
+# === IDEs ===
+.vscode/
+.idea/
+
+# === Misc ===
+*.swp
