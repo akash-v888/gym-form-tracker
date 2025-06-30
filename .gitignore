@@ -6,15 +6,26 @@
 .venv/
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
 # === Virtualenvs ===
 yolov8-env/
 *.egg-info/
 
+# === Pickle files ===
+*.pkl
+
+# === Jupyter Notebooks ===
+.ipynb_checkpoints/
+
 # === Video/Media ===
 *.mp4
 *.avi
 *.mov
+*.png
+*.jpg
+*.jpeg
 
 # === YOLO Models ===
 *.onnx
@@ -37,3 +48,6 @@ yolov8-env/
 
 # === Misc ===
 *.swp
+*.tmp
+__results__/
+temp/
