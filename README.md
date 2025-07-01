@@ -24,19 +24,33 @@ This version focuses on recognizing static hand gestures like thumbs up/down, pe
 ## File Structure
 
 ```
-.
-├── collect_data.py             # Interactive tool for labeling and saving hand gestures
-├── view_dataset.py            # Visualizes dataset samples and class distribution
-├── train_model.py             # Trains neural network from scratch
-├── train_model_knn.py         # Trains improved KNN classifier
-├── gesture_recognizer.py      # Live inference using neural network
-├── gesture_recognizer_knn.py  # Live inference using KNN
-├── neural_net_algo.py         # Custom neural network class
-├── hand_gesture_dataset.pkl   # Serialized landmark/label data
-├── gesture_model.pkl          # Trained NN model
-├── gesture_knn_model.pkl      # Trained KNN model
-├── gesture_label_encoder.pkl  # Label encoder used during training
-└── .gitignore                 # Ignore virtualenvs, models, cache, media, etc.
+project-root/
+├── cpp-version/
+│   ├── models/                        # YOLOv8 pose ONNX model
+│   ├── src/
+│   │   └── main.cpp                   # Main C++ file for full-body + hand keypoint visualization
+│   └── CMakeLists.txt                 # Build instructions for the C++ version
+│
+├── python-version/
+│   └── hands/
+│       ├── collect_data.py                 # Interactive tool for labeling and saving hand gestures
+│       ├── view_dataset.py                 # Visualizes dataset samples and class distribution
+│       ├── train_model.py                  # Trains neural network from scratch
+│       ├── train_model_knn.py              # Trains improved KNN classifier
+│       ├── gesture_recognizer.py           # Live inference using neural network
+│       ├── gesture_recognizer_knn.py       # Live inference using KNN
+│       ├── neural_net_algo.py              # Custom neural network class
+│       ├── hand_tracker.py                 # Utility for MediaPipe hand tracking
+│       ├── hand_kp_stream.py               # Streams hand keypoints via socket to C++ listener
+│       ├── hand_gesture_dataset.pkl        # Serialized landmark/label data
+│       ├── gesture_model.pkl               # Trained neural network model
+│       ├── gesture_knn_model.pkl           # Trained KNN model
+│       ├── gesture_label_encoder.pkl       # Label encoder for neural net
+│       ├── gesture_knn_label_encoder.pkl   # Label encoder for KNN
+│       └── __pycache__/                    # Cached bytecode
+│
+├── .gitignore                          # Ignores virtualenvs, build files, models, etc.
+└── README.md                           # Project overview and documentation
 ```
 
 ## Requirements
@@ -53,6 +67,23 @@ You can install dependencies using:
 ```bash
 pip install -r requirements.txt
 ```
+
+## Key Files
+
+### `main.cpp`
+Located in `cpp-version/src`, this is the C++ entry point for the pose tracking demo. It loads a YOLOv8 pose estimation ONNX model for full-body detection, receives hand keypoints over a socket from the Python script `hand_kp_stream.py`, and overlays both sets of landmarks on the webcam feed. It uses OpenCV’s DNN module for inference and runs a lightweight keypoint visualizer.
+
+### `collect_data.py`
+This script allows users to capture and label hand gesture keypoints in real-time using MediaPipe. It saves the collected (x, y) landmark coordinates along with user-defined labels into a `.pkl` dataset file (`hand_gesture_dataset.pkl`) for model training. A toggle allows appending to or overwriting the dataset.
+
+### `train_model.py`
+Trains a simple neural network from scratch on the collected dataset using NumPy. The model architecture includes a single hidden layer and a softmax output layer. Training progress is printed per epoch, and both the model and label encoder are saved to disk (`gesture_model.pkl`, `gesture_label_encoder.pkl`) for later inference.
+
+### `neural_net_algo.py`
+Defines the `SimpleNeuralNet` class used in `train_model.py` and `gesture_recognizer.py`. This minimal implementation includes forward propagation, backpropagation, and gradient descent logic using raw NumPy. It also includes utilities to save and load the model's weights for reuse.
+
+### `train_model_knn.py`
+Implements an improved K-Nearest Neighbors classifier with optional distance weighting. It loads and encodes the gesture dataset, splits it into train/test sets, evaluates classification accuracy, and saves the trained model and label encoder. This version supports smoother prediction by giving closer neighbors more weight.
 
 ## Getting Started
 
