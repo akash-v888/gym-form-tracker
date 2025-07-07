@@ -91,7 +91,7 @@ while cap.isOpened():
                     (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.7,
                     (0, 0, 255), 2)
 
-    # On-screen commands
+    # Screen commands
     y_offset = 60
     for k, v in label_map.items():
         msg = f"'{k}' --> {v}"
